@@ -4,7 +4,6 @@
 <body>
     <livewire:counter /> 
 
- 
     @livewireScripts
 </body>
 </html>
