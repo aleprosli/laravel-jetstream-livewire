@@ -31,7 +31,7 @@
                 <tbody>
                     @foreach($posts as $post)
                     <tr>
-                        <td class="border px-4 py-2">{{ $post->id }}</td>
+                        <td class="border px-4 py-2">{{ $loop->iteration }}</td>
                         <td class="border px-4 py-2">{{ $post->title }}</td>
                         <td class="border px-4 py-2">{{ $post->description }}</td>
                         <td class="border px-4 py-2">
@@ -42,6 +42,7 @@
                     @endforeach
                 </tbody>
             </table>
+            {{ $posts->links() }}
         </div>
     </div>
 </div>
