@@ -5,18 +5,18 @@ namespace App\Http\Livewire;
 use App\Models\Post;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Livewire\WithFileUploads;
 
 class Posts extends Component
 {
-    use WithPagination;
+    use WithPagination, WithFileUploads;
 
-    public $title, $description, $post_id;
+    public $title, $description, $post_id, $image;
 
     public $isOpen = 0;
 
     public function render()
     {
-        
         return view('livewire.posts', [
             'posts' => Post::paginate(5),
         ]);
@@ -53,6 +53,7 @@ class Posts extends Component
     protected $rules = [
         'title' => 'required|min:6',
         'description' => 'required',
+        'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
     ];
     
     public function store()
@@ -80,15 +81,40 @@ class Posts extends Component
     public function storeWithValidation()
     {
         $this->validate();
- 
+
+        $validate['image'] = $this->image->store('files', 'public');
+
         // Execution doesn't reach here if validation fails
         Post::updateOrCreate(
             ['id' => $this->post_id],
             [
             'title' => $this->title,
-            'description' => $this->description
+            'description' => $this->description,
+            'image' => $this->image,
             ]
         );
+
+        //return message
+        session()->flash('message', 'Post Created Successfully.');
+  
+        //call closemodal
+        $this->closeModal();
+
+        //call resetform
+        $this->resetInputFields();
+    }
+
+    public function storeWithImage()
+    {
+        $post = $this->validate([
+            'title' => 'required|min:6',
+            'description' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+  
+        $post['image'] = $this->image->store('files', 'public');
+  
+        Post::create($post);
 
         //return message
         session()->flash('message', 'Post Created Successfully.');
@@ -106,6 +132,7 @@ class Posts extends Component
         $this->post_id = $id;
         $this->title = $post->title;
         $this->body = $post->body;
+        $this->image = $post->image;
     
         $this->openModal();
     }
