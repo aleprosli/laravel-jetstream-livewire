@@ -24,7 +24,8 @@
                     <tr class="bg-gray-100">
                         <th class="px-4 py-2 w-20">No.</th>
                         <th class="px-4 py-2">Title</th>
-                        <th class="px-4 py-2">Body</th>
+                        <th class="px-4 py-2">Description</th>
+                        <th class="px-4 py-2">Image</th>
                         <th class="px-4 py-2">Action</th>
                     </tr>
                 </thead>
@@ -34,6 +35,8 @@
                         <td class="border px-4 py-2">{{ $loop->iteration }}</td>
                         <td class="border px-4 py-2">{{ $post->title }}</td>
                         <td class="border px-4 py-2">{{ $post->description }}</td>
+                        <td class="border px-4 py-2"><img src="{{ asset('storage/'.$post->image) }}">
+                        </td>
                         <td class="border px-4 py-2">
                             <button wire:click="edit({{ $post->id }})" class="bg-blue-500 hover:bg-blue-700 text-black font-bold py-2 px-4 rounded">Edit</button>
                             <button wire:click="delete({{ $post->id }})" class="bg-red-500 hover:bg-red-700 text-black font-bold py-2 px-4 rounded">Delete</button>
