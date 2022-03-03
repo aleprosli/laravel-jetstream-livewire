@@ -7,12 +7,15 @@ use Livewire\Component;
 
 class Posts extends Component
 {
-    public $title, $description, $post_id;
+    public $title, $description, $post_id, $posts;
 
     public $isOpen = 0;
 
     public function render()
     {
+        //declare variable posts at top
+        $this->posts = Post::all();
+
         return view('livewire.posts');
     }
 
