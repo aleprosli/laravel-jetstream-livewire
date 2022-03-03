@@ -67,4 +67,15 @@ class Posts extends Component
         //call resetform
         $this->resetInputFields();
     }
+
+    public function edit($id)
+    {
+        $post = Post::findOrFail($id);
+        $this->post_id = $id;
+        $this->title = $post->title;
+        $this->body = $post->body;
+    
+        $this->openModal();
+    }
+
 }
